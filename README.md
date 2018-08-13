@@ -38,6 +38,6 @@ sensor 1 = ca031761d4daff28
 
 * Okay, now your service gets temperature and writes it to InfluxDB on remote host
 
-* Go to `office_temp.your.site:3000` and configure Grafana to visualize data from database:
+* Go to `http://office_temp.your.site:3000` (or whatever you have server configuration is...) and configure Grafana to visualize data from database:
 
 ![grafana example](/grafana.png)
