@@ -1,0 +1,45 @@
+
+version: '3'
+services:
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SERVER_DOMAIN=office_temp
+      - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+
+  engine:
+    build: ./engine
+    container_name: engine
+    volumes:
+      - ./engine/engine.py:/engine.py
+    command: ["python", "/engine.py"]
+    depends_on:
+     - db
+    restart: on-failure
+
+  db:
+    container_name: db
+    image: influxdb
+    volumes:
+     - db-data:/var/lib/influxdb
+    ports:
+     - 8086:8086
+    environment:
+     - INFLUXDB_DB=office_temp
+     - INFLUXDB_USER=engine
+     - INFLUXDB_USER_PASSWORD=engine
+     - INFLUXDB_READ_USER=grafana
+     - INFLUXDB_READ_USER_PASSWORD=grafana
+
+volumes:
+  grafana-data:
+    external: true
+  db-data:
+    external: true
