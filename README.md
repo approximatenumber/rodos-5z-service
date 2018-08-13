@@ -14,6 +14,8 @@ web-based services like Grafana+InfluxDB.
 
 2. Configuration on Host with RODOS connected:
 
+![rodos5z](https://silines.ru/image/data/RODOS/RODOS-5Z/IMG_1097_4.png)
+
 * Put udev-rule `99-rodos.rules` to `/etc/udev/rules.d` to set correct rights to access the dongle.
 
 * Compile `bmcontrol` or use compiled version.
