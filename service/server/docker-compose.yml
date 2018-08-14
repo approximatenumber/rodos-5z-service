@@ -1,4 +1,3 @@
-
 version: '3'
 services:
 
@@ -10,19 +9,10 @@ services:
     ports:
       - 3000:3000
     environment:
-      - GF_SERVER_DOMAIN=office_temp
+      - GF_SERVER_DOMAIN=2334
       - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/
       - GF_AUTH_ANONYMOUS_ENABLED=true
-
-  engine:
-    build: ./engine
-    container_name: engine
-    volumes:
-      - ./engine/engine.py:/engine.py
-    command: ["python", "/engine.py"]
-    depends_on:
-     - db
-    restart: on-failure
+      - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
 
   db:
     container_name: db

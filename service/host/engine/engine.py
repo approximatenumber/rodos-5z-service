@@ -3,15 +3,16 @@
 import sys
 import subprocess
 import time
+import re
 from influxdb import InfluxDBClient
 
 INTERVAL = 60
 
-INFLUX_HOST = 'db.example.com'
+INFLUX_HOST = '2334.bazookatrip.xyz'
 INFLUX_PORT = 8086
 INFLUX_USER = 'engine'
 INFLUX_PASS = 'engine'
-INFLUX_DB = 'weather'
+INFLUX_DB = 'office_temp'
 
 SENSOR_ID = 'ca031761d4daff28'
 
@@ -34,7 +35,7 @@ def insert_influx(temp, sensor_id="unknown"):
         {
             "measurement": "temperature",
             "tags": {
-                "sensor-id": sensor-id
+                "sensor-id": SENSOR_ID
             },
             "fields": {"temp": float(temp)}
         }
@@ -50,11 +51,11 @@ def main():
                                     stdout=subprocess.PIPE,
                                     universal_newlines=True)
             try:
-                temp = float(proc.stdout.readline().rstrip('\n '))
-                print(temp)
+                out = proc.stdout.readline().rstrip('\n ')
+                temp = float(re.search('[0-9]+.[0-9]+', out).group())
                 insert_influx(temp, sensor_id=SENSOR_ID)
-                print("Written to influx")
-            except ValueError:
+                print("Written to influx: %f" % temp)
+            except (ValueError, TypeError, AttributeError):
                 print("incorrect data!")
             proc.communicate()
             time.sleep(INTERVAL)
