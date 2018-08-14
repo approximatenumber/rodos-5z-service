@@ -5,7 +5,7 @@ web-based services like Grafana+InfluxDB.
 
 1. Configuration on remote host (aka web-server):
 
-* Copy `service/` to server
+* Copy `service/server` to server
 * Install `docker`
 * Configure `env` section in `docker-compose.yaml` for both services `grafana` and `db`
 * Create services and start them: `docker-compose up -d grafana db`
@@ -31,6 +31,8 @@ sensor 1 = ca031761d4daff28
 ./bmcontrol temp ca031761d4daff28
 27.543
 ```
+
+* Copy `service/host` to your host with rodos connected
 
 * Set you sensor id with `SENSOR_ID` var in `service/engine/engine.py`
 
